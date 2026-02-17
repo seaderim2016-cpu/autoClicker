@@ -19,21 +19,10 @@ extern POBJECT_TYPE *IoDriverObjectType;
 // Typedefs for internal mouse class structures
 //
 
-typedef struct _MOUSE_INPUT_DATA {
-  USHORT UnitId;
-  USHORT Flags;
-  union {
-    ULONG Buttons;
-    struct {
-      USHORT ButtonFlags;
-      USHORT ButtonData;
-    };
-  };
-  ULONG RawButtons;
-  LONG LastX;
-  LONG LastY;
-  ULONG ExtraInformation;
-} MOUSE_INPUT_DATA, *PMOUSE_INPUT_DATA;
+// MOUSE_INPUT_DATA is defined in ntddmou.h, we use the standard definition
+// but we need to include kcom.h or similar if not present.
+// However, since it's a standard WDK type, we'll just use it.
+#include <ntddmou.h>
 
 typedef VOID (*PMouseClassServiceCallback)(PDEVICE_OBJECT DeviceObject,
                                            PMOUSE_INPUT_DATA InputDataStart,
@@ -43,7 +32,7 @@ typedef VOID (*PMouseClassServiceCallback)(PDEVICE_OBJECT DeviceObject,
 typedef struct _MOUSE_OBJECT {
   PDEVICE_OBJECT MouseDeviceObject;
   PMouseClassServiceCallback ServiceCallback;
-  BOOL Found;
+  BOOLEAN Found;
 } MOUSE_OBJECT, *PMOUSE_OBJECT;
 
 // Simplified structure for the mouse class extension
@@ -67,6 +56,10 @@ typedef struct _CLICKER_STATE {
 } CLICKER_STATE, *PCLICKER_STATE;
 
 CLICKER_STATE g_ClickerState = {0};
+
+// Forward declarations
+VOID InjectMousePacket(USHORT buttonFlags);
+NTSTATUS FindMouseObject();
 
 // Simple LCG random number generator for kernel mode
 ULONG RtlRandomRange(PULONG Seed, ULONG Min, ULONG Max) {
