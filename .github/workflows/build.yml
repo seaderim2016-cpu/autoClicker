@@ -31,5 +31,5 @@ jobs:
       with:
         name: AutoClicker-Build
         path: |
-          x64/Release/*.sys
-          x64/Release/*.exe
+          **/*.sys
+          **/*.exe
