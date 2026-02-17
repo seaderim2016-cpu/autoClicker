@@ -199,6 +199,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject,
   status = IoCreateSymbolicLink(&symLink, &deviceName);
 
   // Attempt to find mouse class to prepare for injection
+  // FindMouseObject(); // Commented out for initial build test reliability
   FindMouseObject();
 
   return status;
