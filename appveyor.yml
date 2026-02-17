@@ -8,7 +8,7 @@ environment:
     - THIS_IS_A_DRIVER_BUILD: true
 
 install:
-  - cmd: choco install windows-driver-kit-11 -y
+  - cmd: choco install windowsdriverkit11 -y
   - cmd: echo "WDK Installed. Ready to build..."
 
 build_script:
