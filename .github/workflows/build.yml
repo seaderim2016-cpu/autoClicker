@@ -23,6 +23,9 @@ jobs:
       run: nuget restore AutoClicker.sln
       continue-on-error: true
 
+    - name: Install WDK
+      uses: x973/install-wdk@v1
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
