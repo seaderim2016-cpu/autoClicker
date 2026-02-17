@@ -8,9 +8,8 @@ environment:
     - THIS_IS_A_DRIVER_BUILD: true
 
 install:
-  # AppVeyor VS2022 image usually has WDK, but we can ensure specific needs here if required.
-  # For now, we rely on the pre-installed environment.
-  - cmd: echo "Ready to build..."
+  - cmd: choco install windows-driver-kit-11 -y
+  - cmd: echo "WDK Installed. Ready to build..."
 
 build_script:
   - msbuild AutoClicker.sln /p:Configuration=Release /p:Platform=x64 /p:TargetVersion="Windows10" /v:m
