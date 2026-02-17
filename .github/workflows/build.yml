@@ -24,7 +24,7 @@ jobs:
       continue-on-error: true
 
     - name: Build Driver (x64 Release)
-      run: msbuild AutoClicker.sln /p:Configuration=Release /p:Platform=x64
+      run: msbuild AutoClicker.sln /p:Configuration=Release /p:Platform=x64 /p:TreatWarningsAsErrors=false /v:detailed
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3

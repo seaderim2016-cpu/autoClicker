@@ -2,6 +2,19 @@
 #include <ntddk.h>
 #include <ntstrsafe.h>
 
+// Missing declarations for undocumented kernel functions
+NTSYSAPI
+NTSTATUS
+NTAPI
+ObReferenceObjectByName(__in PUNICODE_STRING ObjectName, __in ULONG Attributes,
+                        __in_opt PACCESS_STATE AccessState,
+                        __in_opt ACCESS_MASK DesiredAccess,
+                        __in POBJECT_TYPE ObjectType,
+                        __in KPROCESSOR_MODE AccessMode,
+                        __in_opt PVOID ParseContext, __out PVOID *Object);
+
+extern POBJECT_TYPE *IoDriverObjectType;
+
 //
 // Typedefs for internal mouse class structures
 //
