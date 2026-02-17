@@ -1,15 +1,11 @@
 version: 1.0.{build}
-image: Visual Studio 2022
+image: Visual Studio 2019
 platform: x64
 configuration: Release
 
 environment:
   matrix:
     - THIS_IS_A_DRIVER_BUILD: true
-
-install:
-  - cmd: choco install windowsdriverkit11 -y
-  - cmd: echo "WDK Installed. Ready to build..."
 
 build_script:
   - msbuild AutoClicker.sln /p:Configuration=Release /p:Platform=x64 /p:TargetVersion="Windows10" /v:m
