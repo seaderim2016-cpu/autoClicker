@@ -8,18 +8,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Install WDK and SDK manually using choco as requested
-      - name: Install Windows Driver Kit
+      # Install latest SDK and WDK available via choco
+      - name: Install SDK and WDK
         run: |
-          choco install windows-sdk-10-windowscore --version=10.0.19041.1 -y
-          choco install windowsdriverkit10 --version=10.0.19041.1 -y
+          choco install windows-sdk-11 -y
+          choco install windows-driver-kit -y
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
 
+      # Build project ignoring version warnings
       - name: Build Driver
         run: |
-          msbuild AutoClicker.sln /p:Configuration=Release /p:Platform=x64
+          msbuild AutoClicker.sln /p:Configuration=Release /p:Platform=x64 /p:WindowsTargetPlatformVersion=10.0
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
