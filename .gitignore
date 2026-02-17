@@ -1,0 +1,25 @@
+# Visual Studio
+.vs/
+Debug/
+Release/
+x64/
+*.user
+*.suo
+*.db
+*.opensdf
+*.sdf
+*.ipch
+*.ap
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Build results
+*.sys
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.lib
+*.exp
