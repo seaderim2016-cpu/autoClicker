@@ -23,6 +23,9 @@ jobs:
       run: nuget restore AutoClicker.sln
       continue-on-error: true
 
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
     - name: Build Driver (x64 Release)
       run: msbuild AutoClicker.sln /p:Configuration=Release /p:Platform=x64 /p:TargetVersion="Windows10" /p:TreatWarningsAsErrors=false /v:detailed
 
