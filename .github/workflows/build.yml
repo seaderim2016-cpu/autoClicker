@@ -1,41 +1,30 @@
-name: Build Driver
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+name: Build AutoClicker Driver
+on: [push]
 
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
+      # Install WDK and SDK manually using choco as requested
+      - name: Install Windows Driver Kit
+        run: |
+          choco install windows-sdk-10-windowscore --version=10.0.19041.1 -y
+          choco install windowsdriverkit10 --version=10.0.19041.1 -y
 
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
 
-    - name: Restore NuGet packages
-      run: nuget restore AutoClicker.sln
-      continue-on-error: true
+      - name: Build Driver
+        run: |
+          msbuild AutoClicker.sln /p:Configuration=Release /p:Platform=x64
 
-    - name: Install WDK
-      uses: x973/install-wdk@v1
-
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
-
-    - name: Build Driver (x64 Release)
-      run: msbuild AutoClicker.sln /p:Configuration=Release /p:Platform=x64 /p:TargetVersion="Windows10" /p:TreatWarningsAsErrors=false /v:detailed
-
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: AutoClicker-Build
-        path: |
-          **/*.sys
-          **/*.exe
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: AutoClicker-Build
+          path: |
+            **/*.sys
+            **/*.exe
