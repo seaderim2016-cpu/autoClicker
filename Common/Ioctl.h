@@ -27,8 +27,13 @@ typedef struct _MOUSE_CLICK_DATA {
   LONG LastY;
 } MOUSE_CLICK_DATA, *PMOUSE_CLICK_DATA;
 
+// Button types
+#define BUTTON_LEFT 1
+#define BUTTON_RIGHT 2
+
 // Configuration for the autoclicker
 typedef struct _AUTOCLICK_CONFIG {
   ULONG MinDelay;
   ULONG MaxDelay;
+  ULONG ButtonType; // BUTTON_LEFT or BUTTON_RIGHT
 } AUTOCLICK_CONFIG, *PAUTOCLICK_CONFIG;

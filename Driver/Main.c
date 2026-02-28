@@ -80,9 +80,17 @@ VOID ClickTimerDpc(PKDPC Dpc, PVOID DeferredContext, PVOID SystemArgument1,
   if (!g_ClickerState.Active)
     return;
 
+  USHORT downFlag =
+      (g_ClickerState.Config.ButtonType == BUTTON_RIGHT)
+          ? 0x08
+          : 0x01; // MOUSE_RIGHT_BUTTON_DOWN : MOUSE_LEFT_BUTTON_DOWN
+  USHORT upFlag = (g_ClickerState.Config.ButtonType == BUTTON_RIGHT)
+                      ? 0x10
+                      : 0x02; // MOUSE_RIGHT_BUTTON_UP : MOUSE_LEFT_BUTTON_UP
+
   if (!g_ClickerState.ButtonDown) {
     // Send DOWN
-    InjectMousePacket(0x01); // MOUSE_LEFT_BUTTON_DOWN
+    InjectMousePacket(downFlag);
     g_ClickerState.ButtonDown = TRUE;
 
     // Re-set timer for the "Hold" duration
@@ -92,7 +100,7 @@ VOID ClickTimerDpc(PKDPC Dpc, PVOID DeferredContext, PVOID SystemArgument1,
     KeSetTimer(&g_ClickerState.Timer, dueTime, &g_ClickerState.Dpc);
   } else {
     // Send UP
-    InjectMousePacket(0x02); // MOUSE_LEFT_BUTTON_UP
+    InjectMousePacket(upFlag);
     g_ClickerState.ButtonDown = FALSE;
 
     // Re-set timer for the next click interval
@@ -187,6 +195,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject,
   g_ClickerState.Active = FALSE;
   g_ClickerState.Config.MinDelay = 15;
   g_ClickerState.Config.MaxDelay = 25;
+  g_ClickerState.Config.ButtonType = BUTTON_LEFT;
   g_ClickerState.Seed = 1337;
 
   status = IoCreateSymbolicLink(&symLink, &deviceName);
