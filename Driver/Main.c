@@ -82,10 +82,10 @@ VOID ClickTimerDpc(PKDPC Dpc, PVOID DeferredContext, PVOID SystemArgument1,
 
   USHORT downFlag =
       (g_ClickerState.Config.ButtonType == BUTTON_RIGHT)
-          ? 0x08
+          ? 0x04
           : 0x01; // MOUSE_RIGHT_BUTTON_DOWN : MOUSE_LEFT_BUTTON_DOWN
   USHORT upFlag = (g_ClickerState.Config.ButtonType == BUTTON_RIGHT)
-                      ? 0x10
+                      ? 0x08
                       : 0x02; // MOUSE_RIGHT_BUTTON_UP : MOUSE_LEFT_BUTTON_UP
 
   if (!g_ClickerState.ButtonDown) {
