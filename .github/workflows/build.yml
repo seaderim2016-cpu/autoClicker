@@ -17,10 +17,6 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
-    - name: Install WDK
-      run: |
-        choco install windowsdriverkit10 -y
-
     - name: Build Driver
       run: msbuild Driver/Driver.vcxproj /p:Configuration=Release /p:Platform=x64
 
